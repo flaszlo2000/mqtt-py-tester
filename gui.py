@@ -28,7 +28,7 @@ class App(Tk):
 
     def _setupWindow(self) -> None:
         super().__init__()
-        self.title("Mqtt test")
+        self.title("Mqtt tester")
 
     def _setupButtonsAndStatusFrame(self) -> None:
         self.button_and_status_container = Frame(self)
