@@ -17,7 +17,7 @@ class StatusFrame(Frame):
         self.status_canvas.config(background = self.state_colors[self.state])
 
 class App(Tk):
-    def __init__(self, notification_command: Callable[[], None]) -> None:
+    def __init__(self, *, notification_command: Callable[[], None]) -> None:
         self._setupWindow()
         
         self._notification_command = notification_command
