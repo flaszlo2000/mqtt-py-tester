@@ -1,4 +1,6 @@
+from signal import SIGINT, signal
 from threading import Event, Thread
+from tkinter import Tk
 from typing import Final
 
 from dotenv import load_dotenv
@@ -15,6 +17,10 @@ def slider_handler(data: str) -> None:
 def button_handler(data: str) -> None:
     print("button: ", data)
 
+def _sigint_handler(app: Tk, stop_event: Event) -> None:
+    app.quit()
+    stop_event.set()
+
 def main() -> None:
     load_dotenv()
 
@@ -28,7 +34,8 @@ def main() -> None:
     main_app = App(notification_command = lambda: publish_data(mqtt_client, config))
     stop_event = Event()
     user_event_thread = Thread(target = mqtt_event_loop, args = [mqtt_client, config, topics, stop_event])
- 
+
+    signal(SIGINT, lambda _, __: _sigint_handler(main_app, stop_event))
     user_event_thread.start()
     main_app.mainloop()
 
